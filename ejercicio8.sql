@@ -27,9 +27,9 @@ ORDER BY total DESC;
 SELECT c.name, AVG(f.`length` ) AS promedio_de_duracion
 FROM category c, film_category fc, film f
 WHERE c.category_id = fc.category_id AND fc.film_id = f.film_id
-GROUP BY c.name 
-ORDER BY promedio_de_duracion DESC
-LIMIT 1;
+GROUP BY c.name
+HAVING promedio_de_duracion > (SELECT avg(`length`) FROM film)
+ORDER BY promedio_de_duracion DESC;
 
 -- Show sales per film rating
 SELECT f.rating, COUNT(*) AS ventas
