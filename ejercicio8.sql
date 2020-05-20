@@ -19,7 +19,7 @@ SELECT c.first_name, c.last_name, a.address,
 (SELECT sum(amount) FROM payment p WHERE p.customer_id = c.customer_id) AS total
 FROM customer c, address a
 WHERE c.address_id = a.address_id
-GROUP BY c.first_name, c.last_name, a.address, cantidad_de_peliculas, total
+GROUP BY c.first_name, c.last_name, a.address
 ORDER BY total DESC; 
 
 -- Which film categories have the larger film duration (comparing average)?
