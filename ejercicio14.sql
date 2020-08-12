@@ -23,5 +23,39 @@ JOIN film_actor USING (film_id)
 JOIN actor USING (actor_id)
 WHERE UPPER(CONCAT(first_name, ' ', last_name)) LIKE UPPER('%PENELOPE GUINESS%')
 
+-- Find all the rentals done in the months of May and June. Show the film title, customer name and if it was returned or not. There should be returned column with two possible values 'Yes' and 'No'.
+SELECT f.title, CONCAT(first_name, ' ', last_name) as 'name',CASE
+WHEN r.return_date IS NOT NULL THEN 'YES'
+ELSE 'NO' END AS 'returned'
+FROM rental r
+JOIN inventory USING (inventory_id)
+JOIN film f USING (film_id)
+JOIN customer c USING (customer_id)
+WHERE MONTHNAME(r.rental_date) IN ('May','June')
+
+-- Investigate CAST and CONVERT functions. Explain the differences if any, write examples based on sakila DB. 
+-- Son muy parecidos uno de otro, lo que cambia es la sintaxis y que convert puede cambiar un valor a un character_set.
+SELECT CONVERT(CONCAT(first_name, ' ', last_name) using utf8)
+FROM actor;
+
+-- Investigate NVL, ISNULL, IFNULL, COALESCE, etc type of function. Explain what they do. Which ones are not in MySql and write usage examples.
+
+-- The MySQL IFNULL() function lets you return an alternative value if an expression is NULL.
+SELECT CONCAT(first_name, ' ', last_name) as name, rental_date, return_date, DATEDIFF(IFNULL(r.return_date, NOW()), r.rental_date) as 'dias_rentados'
+FROM rental r
+JOIN customer USING (customer_id)
+
+-- The COALESCE() function returns the first non-null value in a list.
+SELECT CONCAT(first_name, ' ', last_name) as name, COALESCE(email, phone, CONCAT_WS(", ", address, city, country), 'NO TIENE') as 'contacto'
+FROM customer c
+JOIN address USING (address_id)
+JOIN city USING (city_id)
+JOIN country USING (country_id)
+
+-- The ISNULL() function returns a specified value if the expression is NULL. Funciona igual que IFNULL(). 
+-- No es compatible con MySQL, esta mas pensado para SQL Server y MS Access
+
+-- NVL() tiene la misma función, no es compatible con MySQL y esta pensado para Oracle
+
 
 
