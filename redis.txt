@@ -1,0 +1,76 @@
+1 - Install Redis with docker.
+Add port mapping.
+Set up a bindmount volume.
+
+docker run -d --name redis -p 6379:6379 redis
+
+2-  Connect to Redis and run basic commands
+Write the command to connect using the cli
+do a ping
+get config values
+etc
+
+docker exec -it redis /bin/sh
+redis-cli
+
+ping
+CONFIG GET *
+
+3 - Write examples with string
+SET key value
+GET key
+GETRANGE key 1 3
+
+4 - Write examples with hashes
+
+HMSET meses 1 "enero" 2 "febrero" 3 "marzo" 4 "abril" 5 "mayo" 6 "junio" 7 "julio" 8 "agosto" 9 "septiembre" 10 "octubre" 11 "noviembre" 12 "diciembre"
+HGETALL meses
+HEXISTS meses 3
+HGET meses 11
+HLEN meses
+
+5 - Write examples with Lists
+
+LPUSH colores rojo verde amarillo blanco
+LINDEX colores 2
+LSET colores 3 amarillo
+LRANGE colores 0 -1
+
+6 - Write examples with Sets
+
+SADD dni 401 402 403
+SCARD dni
+SADD dni2 301 401
+SDIFF dni2 dni
+SMOVE dni dni2 403
+SMEMBERS dni2
+
+7 - Write examples with Sorted Sets
+
+ZADD nombres 1 agustin 2 franco 21 jemf
+ZCOUNT nombres 0 10
+ZINCRBY nombres -10 jemf
+ZREVRANGE nombres 0 -1
+
+8 - Write examples using Publish Subscribe
+
+SUBSCRIBE holaMundo
+PUBLISH "holaMundo" "chauMundo"
+
+9 - Write examples using Transactions
+
+MULTI
+SET ejercicio "terminado al fin"
+GET ejercicio
+GETRANGE ejercicio 0 8
+EXEC
+
+10 - Investigate backups
+SAVE
+docker cp redis:data/dump.rdb Villada/gitbd3/BaseDeDatos2/
+
+11 - Investigate Benchmarks - Run some
+redis-benchmark -n 1000
+
+12 - Write a driver application (client) in Python, do some operations with it.
+No supe como hacerlo
