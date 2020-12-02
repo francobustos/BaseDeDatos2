@@ -71,6 +71,3 @@ docker cp redis:data/dump.rdb Villada/gitbd3/BaseDeDatos2/
 
 11 - Investigate Benchmarks - Run some
 redis-benchmark -n 1000
-
-12 - Write a driver application (client) in Python, do some operations with it.
-No supe como hacerlo
